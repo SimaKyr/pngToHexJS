@@ -1,4 +1,5 @@
 <html>
+<title>Convert png to hex</title>
 <head>
   <script src="code.js"></script>
 </head>
@@ -12,87 +13,6 @@
 <span id="raw"><span>
 <button onclick="run()" class="btn"><span>Convert!</span></button>
 <image id ="i" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4ggWCzU3xIPb8wAAACxpVFh0Q29tbWVudAAAAAAAQ3JvcHBlZCB3aXRoIGV6Z2lmLmNvbSBHSUYgbWFrZXKJxDFlAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC"></image>
-  <style type="text/css">
-   body {
-    background: url(https://www.1zoom.ru/big2/62/185130-melisenta.jpg) no-repeat;background-size: 100%;
-  display: table;
-  width: 100%;
-  height: 7em;
-   }
-   * {
-    color: white;
-    text-align: center;
-    }
- .btn {
-  position: relative;
-
-  display: block;
-  margin: 30px auto;
-  padding: 0;
-
-  overflow: hidden;
-
-  border-width: 0;
-  outline: none;
-  border-radius: 2px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-  
-  background-color: #2ecc71;
-  color: #ecf0f1;
-  
-  transition: background-color .3s;
-
-}
-
-.btn:hover, .btn:focus {
-  background-color: #27ae60;
-}
-
-.btn > * {
-  position: relative;
-}
-
-.btn span {
-  display: block;
-  padding: 12px 24px;
-}
-
-.btn:before {
-  content: "";
-  
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  
-  display: block;
-  width: 0;
-  padding-top: 0;
-    
-  border-radius: 100%;
-  
-  background-color: rgba(236, 240, 241, .3);
-  
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.btn:active:before {
-  width: 120%;
-  padding-top: 120%;
-  
-  transition: width .2s ease-out, padding-top .2s ease-out;
-}
-
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-
-}
-
-  </style>
-  
+  <style type="text/css" src="style.css"></style>
 </body>
 </html>
