@@ -1,3 +1,69 @@
+    
+var canvas = document.createElement('canvas');
+    
+var context = canvas.getContext && canvas.getContext('2d');
+    
+document.body.appendChild(canvas);
+
+var imgEl = document.getElementById('i');
+
+var forCopy = document.getElementById('forCopy');
+
+forCopy.style.visibility = 'hidden';
+    
+function copyToClipboard(text){
+
+forCopy.style.visibility = 'visible';
+
+forCopy.value = text;
+
+forCopy.select();
+document.execCommand("copy");
+
+forCopy.value = '';
+
+forCopy.style.visibility = 'hidden';
+}
+
+var arrayCC = document.getElementById('arrayCC');
+
+var closeAlert = document.getElementById('closeAlert');
+var closePrompt = document.getElementById('closePrompt');
+
+var alertEl = closeAlert.parentElement;
+var promptEl = closePrompt.parentElement;
+
+alertEl.style.visibility = 'hidden';
+
+promptEl.style.visibility = 'hidden';
+
+Alert = {};
+
+Alert.createAlert = function(name){
+    var textAlert = alertEl.getElementsByTagName('p')[0];
+    
+    textAlert.innerText = name;
+    
+    alertEl.style.visibility = 'visible';
+}
+
+Alert.createPrompt = function(name,input){
+    var textPrompt = promptEl.getElementsByTagName('p')[0];
+    var inputPrompt = promptEl.getElementsByTagName('input')[0];
+    
+    textPrompt.innerText = name;
+    inputPrompt.value = input;
+    
+    promptEl.style.visibility = 'visible';
+}
+
+closeAlert.onclick = function(){
+    alertEl.style.visibility = 'hidden';
+}
+closePrompt.onclick = function(){
+    promptEl.style.visibility = 'hidden';
+    Alert.valuePrompt = promptEl.getElementsByTagName('input')[0].value;
+}
 function saveFile(data, name){
   var a=document.createElement("a")
   a.setAttribute("download", name||"file.txt")
@@ -18,7 +84,9 @@ function read(){
 function run(){
     var i = 0;
     i = getImage();
-    prompt('Use Ctrl+C for copy', i);
+    Alert.createAlert('Copied to Clipboard');
+    copyToClipboard(i);
+    //prompt('Use Ctrl+C for copy', i);
     /*document.getElementById('raw').innerHTML = i;
     var copyText = document.getElementById("raw");
     copyText.select();
@@ -27,74 +95,88 @@ function run(){
 }
 
 function getImage(){
+    
+    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+    
+    h = height;
+    w = width;
+    
+    //context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    context.drawImage(imgEl, 0, 0);
+    
 getColor(0,0);
 var x, y;
-var hi, wi;
-var imagehex;
+var imagehex = '';
+if(arrayCC.checked){
+    imagehex = 'const uint8_t img[] = {';
+}
     x = 0;
     y = 0;
-    hi = h;
-    wi = w;
-    imagehex = '';
         while(y != h){
                 while(x != w){
+                    if(arrayCC.checked){
+                    imagehex = imagehex
+                    + '0x' + decToHex(getAverageRGB(x,y).r)
+                    + ',' +
+                    '0x' + decToHex(getAverageRGB(x,y).g)
+                    + ',' +
+                    '0x' + decToHex(getAverageRGB(x,y).b)
+                    + ',';
+                    }else{
                     imagehex = imagehex + getColor(x,y);
+                    }
                     x = x + 1;
                     }
                 x = 0;
                 y = y + 1;
                 }
-alert('End');
+if(arrayCC.checked){
+imagehex = imagehex.substring(0,imagehex.length-1);
+imagehex = imagehex + '};'
+}
+
+Alert.createAlert('End');
+//saveFile(imagehex,'code');
 return(imagehex);
 }
 
-function getColor(x,y){
- rgb = getAverageRGB(document.getElementById('i'), x, y);
-    color = rgb.r.toString(16)+rgb.b.toString(16)+rgb.g.toString(16);
-    return color;
+function decToHex(dc){
+var hexString = dc.toString(16);
+    
+if (hexString.length % 2) {
+  hexString = '0' + hexString;
+}
+return String(hexString);
 }
 
-function getAverageRGB(imgEl, x, y) {
+function getColor(x,y){
+ var rgb = getAverageRGB(x, y);
+ var color = decToHex(rgb.r) + decToHex(rgb.g) + decToHex(rgb.b);
+ return color;
+}
+
+function getAverageRGB(x, y) {
     
-    var blockSize = 5, // only visit every 5 pixels
+    var rgb = {},
         defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
-        canvas = document.createElement('canvas'),
-        context = canvas.getContext && canvas.getContext('2d'),
-        data, width, height,
-        i = -4,
-        length,
-        rgb = {r:0,g:0,b:0},
-        count = 0;
+        data, width, height;
         
     if (!context) {
         return defaultRGB;
     }
-    
-    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-    context.drawImage(imgEl, 0, 0);
-    h = height;
-    w = width;
+
     try {
-        data = context.getImageData(x, y, width, height);
+        data = context.getImageData(x, y, 1, 1).data;
     } catch(e) {
         /* security error, img on diff domain */alert('x');
         return defaultRGB;
     }
     
-    length = data.data.length;
-    
-    while ( (i += blockSize * 4) < length ) {
-        ++count;
-        rgb.r += data.data[i+1];
-        rgb.g += data.data[i+2];
-        rgb.b += data.data[i+3];
-    }
-    
-    // ~~ used to floor values
-    rgb.r = ~~(rgb.r/count);
-    rgb.g = ~~(rgb.g/count);
-    rgb.b = ~~(rgb.b/count);
+        rgb.r = Number(data[0]);
+        rgb.g = Number(data[1]);
+        rgb.b = Number(data[2]);
     
     return rgb;
     
