@@ -8,8 +8,13 @@
                 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
             </head>
     <body>
-    <h5>Created By SimaKyr<h5>
-    <h5>If you are from Scratch, this is webpage secure<h5>
+    
+    <div id="info">
+    <h4>About</h4>
+    <h5>Created By SimaKyr</h5>
+    <h5>If you are from Scratch, this is webpage secure</h5>
+    </div>
+    
         <input type="text" id="forCopy">
         <div class="alert">
         <h2>Alert</h2>
@@ -27,9 +32,9 @@
     
         <div id="men">
         <h1>Convert image to hex code</h2>
-        <p></p>
         <p>It can convert png to hex code</p>
-        <p></p>
+        <p id="width"></p>
+        <p id="height"></p>
         <label for="file" class="btn" style="width: 125px;"><span>Select Image</span></label>
         <input type="file" id="file" class="file" style="visibility:hidden;"  onchange="read()"/>
         <span id="raw"><span>

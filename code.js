@@ -27,6 +27,14 @@ forCopy.style.visibility = 'hidden';
 
 var arrayCC = document.getElementById('arrayCC');
 
+var heightT = document.getElementById('height');
+var widthT = document.getElementById('width');
+
+function displayInfo(){
+heightT.innerText = 'Height:' + canvas.height;
+widthT.innerText = 'Width:' + canvas.width;
+}
+
 var closeAlert = document.getElementById('closeAlert');
 var closePrompt = document.getElementById('closePrompt');
 
@@ -77,7 +85,15 @@ function read(){
   oFReader.onload = function (oFREvent) {
     var sizef = file.size;
     i = oFREvent.target.result;
-    document.getElementById('i').src = i;
+    imgEl.src = i;
+    
+    imgEl.onload = function(){
+    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+    
+    displayInfo();
+    imgEl.onload = function(){};
+    }
 }
 };
 
@@ -95,9 +111,6 @@ function run(){
 }
 
 function getImage(){
-    
-    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
     
     h = height;
     w = width;

@@ -1,11 +1,22 @@
 body {
     padding:0;
     margin: 0;
-    background: url(https://www.1zoom.ru/big2/62/185130-melisenta.jpg) no-repeat;
+    background: url(https://designshack.net/wp-content/uploads/bubble-background.jpg) no-repeat;
     background-size: 100% 100%;
     /*display: table;*/
     width: 100%;
     
+}
+#info{
+position: fixed;
+top:0;
+left:0;
+padding: 10px;
+}
+@media only screen and (max-device-width : 640px) {
+#info{
+display: none;
+}
 }
 #men{
     background: rgba(255,255,255,0.5);
@@ -51,7 +62,7 @@ body {
 
 .btn span {
   display: block;
-  padding: 12px 24px;
+  padding: 6px 12px;
 }
 
 .btn:before {
@@ -189,4 +200,26 @@ p, h1, h2, h3, h4, h5, b, i, .btn{
 -ms-user-select: none; /* IE10+/Edge */
 user-select: none; /* Standard */
 }
-#forCopy{ margin:0; padding:0; border:0; height: 0px; width: 0px; font-size: 0px;}
+#forCopy{ margin:0; padding:0; border:0; height: 1px; width: 1px;}
+#i{
+ height: 96px !important;
+ image-rendering: pixelated;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
